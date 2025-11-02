@@ -64,6 +64,8 @@ export function inputHandler() {
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
           process.exit(0);
+        default:
+          console.log(messages(null, 'invalidCommand'));
       }
       console.log(messages(process.cwd(), 'startProgram'));
     }catch (error) {
