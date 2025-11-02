@@ -1,8 +1,8 @@
-import { log } from 'console';
-import {inputHandler, getUser, exitHandler} from './cli/index.js';
+import {inputHandler} from './cli/index.js';
 import {messages} from './utility/messages.js';
-import os from 'os';
-import process from 'node:process'
+import process from 'node:process';
+import {getUser} from './user/getUser.js';
+import {exitHandler} from './utility/exitHandler.js';
 
 const user = getUser();
 console.log(messages(user, 'hiUser'));

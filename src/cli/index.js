@@ -4,8 +4,9 @@ import {messages} from '../utility/messages.js';
 import { parseInput } from '../utility/parseInput.js';
 import {fileOperations} from '../file-operations/operations.js';
 import { calculateHash } from '../hash/getHash.js';
+import {getUser} from '../user/getUser.js';
 
-function inputHandler() {
+export function inputHandler() {
   process.stdin.setEncoding('utf-8');
 
   process.stdin.on('data', async(data) => {
@@ -67,26 +68,4 @@ function inputHandler() {
         console.log('Error:', error.message);
       }
   })
-}
-
-function getUser() {
-  const args = process.argv.slice(2);
-  console.log(process.argv);
-
-  const usernameArg = args.find((arg) =>
-    arg.startsWith(`--username=`)
-  );
-  if (!usernameArg) {
-    return 'Anonymous';
-  }
-  return usernameArg? usernameArg.split('=')[1] : 'Anonymous';
-}
-
-function exitHandler() {
-  process.on('SIGINT', () => {
-  console.log(messages(getUser(), 'finishProgram'));
-  process.exit(0);
- });
-}
-
-export {inputHandler, getUser, exitHandler};
+};
