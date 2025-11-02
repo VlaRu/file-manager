@@ -1,6 +1,7 @@
 import process from 'process';
 import path from 'path';
 import fs from 'node:fs/promises';
+import { messages } from '../utility/messages.js';
 
 export const navigation = {
   up() {
@@ -12,7 +13,12 @@ export const navigation = {
     return;
   }
 
-  process.chdir(parentDir);
+  try {
+      process.chdir(parentDir);
+      console.log(messages(process.cwd(), 'startProgram'));
+    } catch (error) {
+      console.log('❌ You are already at the root directory:', error.message);
+    }
   },
 
   cd(dir) {
