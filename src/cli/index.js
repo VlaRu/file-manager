@@ -2,6 +2,7 @@ import {navigation} from '../navigation/navigation.js';
 import process from 'node:process';
 import {messages} from '../utility/messages.js';
 import { parseInput } from '../utility/parseInput.js';
+import {fileOperations} from '../file-operations/operations.js';
 
 function inputHandler() {
   process.stdin.setEncoding('utf-8');
@@ -16,10 +17,13 @@ function inputHandler() {
           navigation.up();
           break;
         case 'cd':
-          navigation.cd(argument);
+          navigation.cd();
           break;
         case 'ls':
           await navigation.ls();
+          break;
+        case 'cat':
+          await fileOperations.read(argument);
           break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
