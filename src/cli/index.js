@@ -5,6 +5,7 @@ import { parseInput } from '../utility/parseInput.js';
 import {fileOperations} from '../file-operations/operations.js';
 import { calculateHash } from '../hash/getHash.js';
 import {getUser} from '../user/getUser.js';
+import {operationSystem} from '../os/index.js';
 
 export function inputHandler() {
   process.stdin.setEncoding('utf-8');
@@ -60,6 +61,9 @@ export function inputHandler() {
         break;
         case 'hash':
           await calculateHash(argument);
+        break;
+        case 'os':
+          operationSystem(argument);
         break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
