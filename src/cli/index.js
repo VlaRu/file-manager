@@ -28,6 +28,9 @@ function inputHandler() {
         case 'add':
           await fileOperations.create(argument);
         break;
+        case 'mkdir':
+          await fileOperations.createDir(argument);
+        break;
         case 'rn':
           const [oldPath, newPath] = argument.split(' ');
           await fileOperations.rename(oldPath, newPath);

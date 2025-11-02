@@ -30,7 +30,16 @@ export const fileOperations = {
     const fullPath = getFullPath(filePath);
     await fs.writeFile(fullPath, '', { flag: 'wx' });
     console.log(`✅ File created: ${fullPath}`);
+  },
+  async createDir(dirPath) {
+    if (!dirPath) {
+      console.log('❌ Please specify a directory name');
+      return;
+    }
 
+    const fullPath = getFullPath(dirPath);
+    const dirCreation = await fs.mkdir(fullPath, { recursive: true });
+    return dirCreation;
   },
   async rename(filePath, newFilePath) {
     try {
