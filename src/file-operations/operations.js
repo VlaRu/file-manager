@@ -76,10 +76,25 @@ export const fileOperations = {
     } catch (error) {
       console.log('❌ Error copying file:', error.message);
     }
-  }
+  },
+  async move(srcFile, destDir){
+    const destPath = await this.copyFile(srcFile, destDir);
+    if (!destPath) return;
+
+    try {
+      const srcPath = getFullPath(srcFile);
+      await fs.unlink(srcPath);
+      console.log(`✅ File moved: ${destPath}`);
+    } catch (error) {
+      console.log('❌ Error deleting original file:', error.message);
+    }
+  },
+  async delete(srcFile){
+    const filePath = getFullPath(srcFile);
+    await fs.access(filePath);
+    await fs.unlink(filePath);
+  },
   /* ,
-  move(){},
-  delete(){},
   compress(){},
   decompress(){} */
 }

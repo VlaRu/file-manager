@@ -36,6 +36,13 @@ function inputHandler() {
           const [srcFile, destDir] = argument.split(' ');
           await fileOperations.copyFile(srcFile, destDir);
         break;
+        case 'mv':
+          const [srcFileMove, destDirMove] = argument.split(' ');
+          await fileOperations.move(srcFileMove, destDirMove);
+        break;
+        case 'rm':
+          await fileOperations.delete(argument);
+        break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
           process.exit(0);
