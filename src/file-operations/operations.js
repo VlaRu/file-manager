@@ -10,21 +10,27 @@ const pipeline = promisify(pipelineCallback);
 
 export const fileOperations = {
   read(filePath) {
-    if (!filePath) {
-      console.log('❌ Please specify a file name');
-      return;
-    }
-    const fullPath = getFullPath(filePath);
-    const stream = fss.createReadStream(fullPath, { encoding: 'utf8' });
+    return new Promise((resolve) => {
+      if (!filePath) {
+        console.log('❌ Please specify a file name');
+        return;
+      }
+      const fullPath = getFullPath(filePath);
+      const stream = fss.createReadStream(fullPath, { encoding: 'utf8' });
 
-    stream.on('data', (chunk) => {
-      process.stdout.write(chunk);
-    });
-    stream.on('end', () => {
-      process.stdout.write('\n');
-    });
-    stream.on('error', (error) => {
-      console.log('❌ Error reading file:', error.message);
+      stream.on('data', (chunk) => {
+        process.stdout.write(chunk);
+      });
+
+      stream.on('end', () => {
+        process.stdout.write('\n');
+        resolve();
+      });
+
+      stream.on('error', (error) => {
+        console.log('❌ Error reading file:', error.message);
+        resolve();
+      });
     });
   },
   async create(filePath, content = '') {

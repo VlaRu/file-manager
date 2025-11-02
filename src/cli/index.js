@@ -70,6 +70,8 @@ export function inputHandler() {
       console.log(messages(process.cwd(), 'startProgram'));
     }catch (error) {
         console.log('Error:', error.message);
-    }
+    }finally {
+    process.stdout.write('Enter command: ');
+ }
   })
 };
