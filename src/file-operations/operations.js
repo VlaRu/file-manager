@@ -2,6 +2,10 @@ import fs from 'node:fs/promises';
 import fss from 'node:fs';
 import path from 'node:path';
 import { getFullPath } from '../utility/getFullPath.js';
+import zlib from 'node:zlib';
+import { pipeline as pipelineCallback } from 'node:stream';
+import { promisify } from 'node:util';
+const pipeline = promisify(pipelineCallback);
 
 export const fileOperations = {
   read(filePath) {
@@ -103,7 +107,33 @@ export const fileOperations = {
     await fs.access(filePath);
     await fs.unlink(filePath);
   },
-  /* ,
-  compress(){},
-  decompress(){} */
+  async compress(srcFile, destFile){
+    const filePath = getFullPath(srcFile);
+    const destPath = getFullPath(destFile);
+
+    const brotli = zlib.createBrotliCompress();
+    const source = fss.createReadStream(filePath);
+    const destination = fss.createWriteStream(destPath);
+    try {
+      await pipeline(source, brotli, destination);
+      console.log('File compressed successfully');
+    } catch (error) {
+      console.log('Error during compression:', error.message);
+    }
+  },
+  async decompress(srcFile, destFile){
+    const filePath = getFullPath(srcFile);
+    const destPath = getFullPath(destFile);
+
+    const brotli = zlib.createBrotliDecompress();
+    const source = fss.createReadStream(filePath);
+    const destination = fss.createWriteStream(destPath);
+
+    try {
+      await pipeline(source, brotli, destination);
+      console.log('File decompressed successfully');
+    } catch (error) {
+      console.log('Error during decompression:', error.message);
+    }
+  }
 }

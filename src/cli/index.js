@@ -46,6 +46,14 @@ function inputHandler() {
         case 'rm':
           await fileOperations.delete(argument);
         break;
+        case 'compress':
+          const [srcFileCompress, destFileCompress] = argument.split(' ');
+          await fileOperations.compress(srcFileCompress, destFileCompress);
+        break;
+        case 'decompress':
+          const [srcFileDecompress, destFileDecompress] = argument.split(' ');
+          await fileOperations.decompress(srcFileDecompress, destFileDecompress);
+        break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
           process.exit(0);
