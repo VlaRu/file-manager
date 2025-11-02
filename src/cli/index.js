@@ -9,6 +9,8 @@ import {getUser} from '../user/getUser.js';
 export function inputHandler() {
   process.stdin.setEncoding('utf-8');
 
+  process.stdout.write('Enter command: ');
+
   process.stdin.on('data', async(data) => {
     const input = data.toString().trim();
     if (!input) return;
@@ -66,6 +68,6 @@ export function inputHandler() {
       console.log(messages(process.cwd(), 'startProgram'));
     }catch (error) {
         console.log('Error:', error.message);
-      }
+    }
   })
 };
