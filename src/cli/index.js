@@ -32,6 +32,10 @@ function inputHandler() {
           const [oldPath, newPath] = argument.split(' ');
           await fileOperations.rename(oldPath, newPath);
         break;
+        case 'cp':
+          const [srcFile, destDir] = argument.split(' ');
+          await fileOperations.copyFile(srcFile, destDir);
+        break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
           process.exit(0);

@@ -39,5 +39,47 @@ export const fileOperations = {
       throw new Error(error.message);
     }
   },
-  
+  async copyFile(srcFile, destDir) {
+    if (!srcFile || !destDir) {
+      console.log('❌ Please specify source file and destination directory');
+      return;
+    }
+
+    const srcPath = getFullPath(srcFile);
+    const destPath = path.join(getFullPath(destDir), path.basename(srcFile));
+
+    try {
+      await fs.access(srcPath);
+
+      try {
+        await fs.access(destPath);
+        console.log('❌ Destination file already exists');
+        return;
+      } catch (err) {
+        if (err.code !== 'ENOENT') throw err;
+      }
+
+      const readStream = fss.createReadStream(srcPath);
+      const writeStream = fss.createWriteStream(destPath);
+
+      readStream.pipe(writeStream);
+
+      await new Promise((resolve, reject) => {
+        writeStream.on('finish', () => {
+          console.log(`✅ File copied: ${destPath}`);
+          resolve();
+        });
+        writeStream.on('error', reject);
+        readStream.on('error', reject);
+      });
+
+    } catch (error) {
+      console.log('❌ Error copying file:', error.message);
+    }
+  }
+  /* ,
+  move(){},
+  delete(){},
+  compress(){},
+  decompress(){} */
 }
