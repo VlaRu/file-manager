@@ -1,28 +1,25 @@
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
+import fss from 'node:fs';
 import path from 'node:path';
+import { getFullPath } from '../utility/getFullPath.js';
 
 export const fileOperations = {
-  async read(filePath) {
-    const fullPath = path.resolve(process.cwd(), filePath);
-    try {
-      const file = await fs.createReadStream(fullPath, { encoding: 'utf8' });
-      file.on('data', (chunk) => {
-        process.stdout.write(chunk);
-      });
-      file.on('end', () => {
-        process.stdout.write('\n');
-      });
-    } catch (error) {
-      throw new Error(error.message);
+  read(filePath) {
+    if (!filePath) {
+      console.log('❌ Please specify a file name');
+      return;
     }
-  }/* ,
-  create(){
+    const fullPath = getFullPath(filePath);
+    const stream = fss.createReadStream(fullPath, { encoding: 'utf8' });
 
-  },
-  rename(){},
-  copy(){},
-  move(){},
-  delete(){},
-  compress(){},
-  decompress(){} */
+    stream.on('data', (chunk) => {
+      process.stdout.write(chunk);
+    });
+    stream.on('end', () => {
+      process.stdout.write('\n');
+    });
+    stream.on('error', (error) => {
+      console.log('❌ Error reading file:', error.message);
+    });
+  }
 }
