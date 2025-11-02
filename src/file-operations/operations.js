@@ -5,6 +5,7 @@ import { getFullPath } from '../utility/getFullPath.js';
 import zlib from 'node:zlib';
 import { pipeline as pipelineCallback } from 'node:stream';
 import { promisify } from 'node:util';
+
 const pipeline = promisify(pipelineCallback);
 
 export const fileOperations = {

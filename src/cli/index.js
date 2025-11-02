@@ -3,6 +3,7 @@ import process from 'node:process';
 import {messages} from '../utility/messages.js';
 import { parseInput } from '../utility/parseInput.js';
 import {fileOperations} from '../file-operations/operations.js';
+import { calculateHash } from '../hash/getHash.js';
 
 function inputHandler() {
   process.stdin.setEncoding('utf-8');
@@ -53,6 +54,9 @@ function inputHandler() {
         case 'decompress':
           const [srcFileDecompress, destFileDecompress] = argument.split(' ');
           await fileOperations.decompress(srcFileDecompress, destFileDecompress);
+        break;
+        case 'hash':
+          await calculateHash(argument);
         break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
