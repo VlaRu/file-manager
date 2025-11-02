@@ -31,5 +31,13 @@ export const fileOperations = {
     await fs.writeFile(fullPath, '', { flag: 'wx' });
     console.log(`✅ File created: ${fullPath}`);
 
-  }
+  },
+  async rename(filePath, newFilePath) {
+    try {
+      await fs.rename(filePath, newFilePath);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  
 }
