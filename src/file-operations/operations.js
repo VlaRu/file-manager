@@ -21,5 +21,15 @@ export const fileOperations = {
     stream.on('error', (error) => {
       console.log('❌ Error reading file:', error.message);
     });
+  },
+  async create(filePath, content = '') {
+    if (!filePath) {
+      console.log('❌ Please specify a file name');
+      return;
+    }
+    const fullPath = getFullPath(filePath);
+    await fs.writeFile(fullPath, '', { flag: 'wx' });
+    console.log(`✅ File created: ${fullPath}`);
+
   }
 }

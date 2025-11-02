@@ -25,6 +25,9 @@ function inputHandler() {
         case 'cat':
           await fileOperations.read(argument);
           break;
+        case 'add':
+          await fileOperations.create(argument);
+        break;
         case '.exit':
           console.log(messages(getUser(), 'finishProgram'));
           process.exit(0);
